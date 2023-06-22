@@ -10,23 +10,23 @@ from models import db, Bakery, BakedGood
 fake = Faker()
 
 with app.app_context():
+    db.create_all()  # Create the database tables if they don't exist
 
     BakedGood.query.delete()
     Bakery.query.delete()
-    
+
     bakeries = []
     for i in range(20):
         b = Bakery(
             name=fake.company()
         )
         bakeries.append(b)
-    
+
     db.session.add_all(bakeries)
 
     baked_goods = []
     names = []
     for i in range(200):
-
         name = fake.first_name()
         while name in names:
             name = fake.first_name()
@@ -34,7 +34,7 @@ with app.app_context():
 
         bg = BakedGood(
             name=name,
-            price=randint(1,10),
+            price=randint(1, 10),
             bakery=rc(bakeries)
         )
 
@@ -42,7 +42,7 @@ with app.app_context():
 
     db.session.add_all(baked_goods)
     db.session.commit()
-    
+
     most_expensive_baked_good = rc(baked_goods)
     most_expensive_baked_good.price = 100
     db.session.add(most_expensive_baked_good)
