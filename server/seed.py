@@ -10,7 +10,7 @@ from models import db, Bakery, BakedGood
 fake = Faker()
 
 with app.app_context():
-    db.create_all()  # Create the database tables if they don't exist
+    db.create_all() 
 
     BakedGood.query.delete()
     Bakery.query.delete()
